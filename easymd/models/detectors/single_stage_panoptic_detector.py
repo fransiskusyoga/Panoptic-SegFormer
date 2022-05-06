@@ -140,7 +140,7 @@ class SingleStagePanopticDetector(BaseDetector):
             img_shape = torch._shape_as_tensor(img)[2:]
             img_metas[0]['img_shape_for_onnx'] = img_shape
         bbox_list,seg_list = self.bbox_head.get_bboxes(
-            *outs, img_metas, rescale=rescale)
+            *outs, img_metas, rescale=rescale)\
         # skip post-processing when exporting to ONNX
         if torch.onnx.is_in_onnx_export():
             return bbox_list

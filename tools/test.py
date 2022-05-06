@@ -118,6 +118,12 @@ def main(extra_args=None):
         raise ValueError('The output file must be a pkl file.')
 
     cfg = Config.fromfile(args.config)
+    if(cfg.model['backbone']['type']=='SwinTransformer'):
+        cfg.model['backbone'].pop('depth', None)
+        cfg.model['backbone'].pop('num_stages', None)
+        cfg.model['backbone'].pop('norm_cfg', None)
+        cfg.model['backbone'].pop('norm_eval', None)
+        cfg.model['backbone'].pop('style', None)
     
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
@@ -197,7 +203,7 @@ def main(extra_args=None):
 
     if not distributed:
         model = MMDataParallel(model, device_ids=[0])
-        assert False,'TODO'
+        #assert False,'TODO'
         outputs = single_gpu_test_plus(model, data_loader, args.show, args.show_dir,
                                   args.show_score_thr)
     else:

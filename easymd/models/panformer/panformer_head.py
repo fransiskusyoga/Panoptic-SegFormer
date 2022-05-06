@@ -196,7 +196,7 @@ class PanformerHead(DETRHeadv2):
         """
 
         batch_size = mlvl_feats[0].size(0)
-       
+        
         input_img_h, input_img_w = img_metas[0]['batch_input_shape']
 
         img_masks = mlvl_feats[0].new_ones(
@@ -1201,6 +1201,8 @@ class PanformerHead(DETRHeadv2):
                 results[0, _mask] = self.cat_dict[labels_all[i]]['id']
                 if labels_all[i] < 80:
                     results[1, _mask] = id_unique
+                    id_unique += 1
+                else:
                     id_unique += 1
 
             file_name = img_metas[img_id]['filename'].split('/')[-1].split(

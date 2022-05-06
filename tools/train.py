@@ -89,6 +89,12 @@ def main():
     args = parse_args()
 
     cfg = Config.fromfile(args.config)
+    if(cfg.model['backbone']['type']=='SwinTransformer'):
+        cfg.model['backbone'].pop('depth', None)
+        cfg.model['backbone'].pop('num_stages', None)
+        cfg.model['backbone'].pop('norm_cfg', None)
+        cfg.model['backbone'].pop('norm_eval', None)
+        cfg.model['backbone'].pop('style', None)
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
     # import modules from string list.
